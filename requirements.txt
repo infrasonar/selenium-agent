@@ -1,2 +1,2 @@
-pylibagent==0.3.1
+pylibagent==1.0.2
 libseleniumagent==0.1.0
