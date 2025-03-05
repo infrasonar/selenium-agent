@@ -32,6 +32,10 @@ class TestBase(abc.ABC):
     def run(cls):
         t0 = time.time()
         driver = webdriver.Chrome()
+
+        # TODO remote optional?
+        # options = webdriver.ChromeOptions()
+        # driver = webdriver.Remote(options=options)
         try:
             driver.get(cls.url)
             cls.test(driver)

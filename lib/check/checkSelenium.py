@@ -4,7 +4,6 @@ from libseleniumagent.version import __version__ as libseleniumagent_version
 from pylibagent.check import CheckBase
 from selenium import webdriver
 from selenium import __version__ as selenium_version
-from selenium.webdriver.chrome.options import Options
 from typing import Dict, List, Any
 from ..tests import TESTS
 from ..version import __version__ as version
@@ -16,9 +15,8 @@ class CheckSelenium(CheckBase):
 
     @classmethod
     async def run(cls) -> Dict[str, List[Dict[str, Any]]]:
-        chrome_options = Options()
-        chrome_options.add_argument("--headless=new")
-        driver = webdriver.Chrome(options=chrome_options)
+        options = webdriver.ChromeOptions()
+        driver = webdriver.Remote(options=options)
 
         items = []
         for test in TESTS:
