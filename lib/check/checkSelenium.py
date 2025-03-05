@@ -69,5 +69,5 @@ class CheckSelenium(CheckBase):
             'num_checks': len(items),
             'total_duration': sum(i['duration'] for i in items),
         }
-        state = {'selenium': items, 'total': [total]}
+        state = {'tests': items, 'total': [total]}
         return state
