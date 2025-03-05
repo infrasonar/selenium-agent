@@ -1,4 +1,5 @@
 import abc
+import time
 from selenium import webdriver
 
 
@@ -16,12 +17,28 @@ class TestBase(abc.ABC):
             raise NotImplementedError('`name` not implemented')
         if not isinstance(cls.name, str):
             raise NotImplementedError('`name` must be type str')
-        if not hasattr(cls, '`description`'):
+        if not hasattr(cls, 'description'):
             raise TypeError('`description` not implemented')
         if not isinstance(cls.description, str):
             raise TypeError('`description` must be type str')
         return super().__init_subclass__(**kwargs)
 
+    @classmethod
+    def test(cls):
+        t0 = time.time()
+        driver = webdriver.Chrome()
+        try:
+            driver.get(cls.url)
+            cls.run(driver)
+        except Exception as e:
+            error = str(e) or type(e).__name__
+            print(f'Test {cls.name} failed: {error}')
+        else:
+            duration = round(time.time() - t0, 3)
+            print(f'Test {cls.name} finished in {duration}s')
+        finally:
+            driver.quit()
+
     @abc.abstractclassmethod
-    async def run(cls, driver: webdriver.Chrome):
+    def run(cls, driver: webdriver.Chrome):
         ...

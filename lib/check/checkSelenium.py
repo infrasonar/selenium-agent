@@ -2,27 +2,23 @@ import importlib
 import time
 import os
 import logging
+from inspect import getmembers, isclass
 from typing import Dict, List, Any
 from pylibagent.check import CheckBase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from .. import TestBase
 from ..version import __version__ as version
 
 
-item_funs = []
+TESTS: List[TestBase] = []
 for fn in sorted(os.listdir('recipes')):
     if not fn.endswith('.py'):
         continue
     mod = importlib.import_module(f'recipes.{fn[:-3]}')
-    if not hasattr(mod, 'NAME'):
-        continue
-    if not hasattr(mod, 'URL'):
-        continue
-    if not hasattr(mod, 'DESCRIPTION'):
-        continue
-    if not hasattr(mod, 'run'):
-        continue
-    item_funs.append(mod)
+    for _, cls in getmembers(mod, isclass):
+        if TestBase in cls.__bases__:
+            TESTS.append(cls)
 
 
 class CheckSelenium(CheckBase):
@@ -36,22 +32,23 @@ class CheckSelenium(CheckBase):
         driver = webdriver.Chrome(options=chrome_options)
 
         items = []
-        for mod in item_funs:
+        for mod in TESTS:
             t0 = time.time()
             success = True
             error = None
             try:
+                driver.get(mod.url)
                 mod.run(driver)
             except Exception as e:
                 success = False
                 error = str(e) or type(e).__name__
             items.append({
-                'name': mod.NAME,
-                'url': mod.URL,
+                'name': mod.name,
+                'url': mod.url,
                 'success': success,
                 'error': error,
                 'duration': time.time() - t0,
-                'description': mod.DESCRIPTION,
+                'description': mod.description,
             })
 
         driver.quit()
