@@ -1,6 +1,8 @@
 import os
+import logging
 from pylibagent.agent import Agent
 from lib.check.checkSelenium import CheckSelenium
+from lib.tests import TESTS
 from lib.version import __version__ as version
 
 
@@ -10,4 +12,9 @@ if __name__ == '__main__':
     os.environ['ASSET_ID'] = ASSET_ID
 
     checks = [CheckSelenium]
-    Agent('selenium', version).start(checks, asset_kind='Website')
+    agent = Agent('selenium', version)
+
+    # logger is inited by now
+    logging.warning(f'Number of tests: {len(TESTS)}')
+
+    agent.start(checks, asset_kind='Website')

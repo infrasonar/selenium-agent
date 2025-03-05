@@ -8,6 +8,7 @@ class MyTest(TestBase):
     name = 'myTest'
     description = 'test'
     url = 'https://www.selenium.dev/selenium/web/web-form.html'
+    version = '0'
 
     @classmethod
     def test(cls, driver: webdriver.Chrome):
