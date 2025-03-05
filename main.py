@@ -10,4 +10,4 @@ if __name__ == '__main__':
     os.environ['ASSET_ID'] = ASSET_ID
 
     checks = [CheckSelenium]
-    Agent('selenium', version).start(checks, asset_kind='Speed')
+    Agent('selenium', version).start(checks, asset_kind='Website')
