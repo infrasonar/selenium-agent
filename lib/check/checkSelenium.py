@@ -11,6 +11,9 @@ from .. import TestBase
 from ..version import __version__ as version
 
 
+# TODO should we do this loop at module level?
+# should we raise error when no tests are found?
+# use TESTS_DIR env var
 TESTS: List[TestBase] = []
 for fn in sorted(os.listdir('recipes')):
     if not fn.endswith('.py'):
