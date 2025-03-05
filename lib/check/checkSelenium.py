@@ -1,10 +1,11 @@
 import time
 import os
-from typing import Dict, List, Any
+from libseleniumagent.version import __version__ as libseleniumagent_version
 from pylibagent.check import CheckBase
 from selenium import webdriver
 from selenium import __version__ as selenium_version
 from selenium.webdriver.chrome.options import Options
+from typing import Dict, List, Any
 from ..tests import TESTS
 from ..version import __version__ as version
 
@@ -51,6 +52,7 @@ class CheckSelenium(CheckBase):
         }
         agent = {
             'name': 'agent',
+            'libseleniumagent_version': libseleniumagent_version,
             'selenium_version': selenium_version,
             'version': version,
         }
