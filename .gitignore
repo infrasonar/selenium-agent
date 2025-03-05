@@ -8,3 +8,8 @@ __pycache__/
 # Test folder
 testing/
 target/
+
+
+# Build
+*.egg-info/
+dist/
