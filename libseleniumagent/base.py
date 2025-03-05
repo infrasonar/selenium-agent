@@ -7,6 +7,7 @@ class TestBase(abc.ABC):
     url: str
     name: str
     description: str
+    version: str
 
     def __init_subclass__(cls, **kwargs):
         if not hasattr(cls, 'url'):
@@ -21,6 +22,10 @@ class TestBase(abc.ABC):
             raise TypeError('`description` not implemented')
         if not isinstance(cls.description, str):
             raise TypeError('`description` must be type str')
+        if not hasattr(cls, 'version'):
+            raise TypeError('`version` not implemented')
+        if not isinstance(cls.version, str):
+            raise TypeError('`version` must be type str')
         return super().__init_subclass__(**kwargs)
 
     @classmethod

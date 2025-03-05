@@ -13,7 +13,6 @@ from ..version import __version__ as version
 
 
 # TODO should we do this loop at module level?
-# should we raise error when no tests are found?
 TESTS_DIR = os.getenv('TESTS_DIR', '/data/tests')
 assert os.path.isdir(TESTS_DIR), 'invalid TEST_DIR'
 sys.path.append(TESTS_DIR)
@@ -27,8 +26,6 @@ for fn in sorted(os.listdir(TESTS_DIR)):
         if TestBase in cls.__bases__:
             TESTS.append(cls)
 
-assert TESTS, 'no tests found'
-
 
 class CheckSelenium(CheckBase):
     key = 'selenium'
@@ -41,23 +38,24 @@ class CheckSelenium(CheckBase):
         driver = webdriver.Chrome(options=chrome_options)
 
         items = []
-        for mod in TESTS:
+        for test in TESTS:
             t0 = time.time()
             success = True
             error = None
             try:
-                driver.get(mod.url)
-                mod.test(driver)
+                driver.get(test.url)
+                test.test(driver)
             except Exception as e:
                 success = False
                 error = str(e) or type(e).__name__
             items.append({
-                'name': mod.name,
-                'url': mod.url,
+                'name': test.name,
+                'url': test.url,
                 'success': success,
                 'error': error,
                 'duration': time.time() - t0,
-                'description': mod.description,
+                'description': test.description,
+                'version': test.version,
             })
 
         driver.quit()
@@ -69,5 +67,6 @@ class CheckSelenium(CheckBase):
             'num_checks': len(items),
             'total_duration': sum(i['duration'] for i in items),
         }
-        state = {'tests': items, 'total': [total]}
+        agent = {'name': 'agent', 'version': version}
+        state = {'tests': items, 'total': [total], 'agent': [agent]}
         return state
