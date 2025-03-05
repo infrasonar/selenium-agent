@@ -8,7 +8,7 @@ from typing import Dict, List, Any
 from pylibagent.check import CheckBase
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from .. import TestBase
+from libseleniumagent.base import TestBase
 from ..version import __version__ as version
 
 
@@ -47,7 +47,7 @@ class CheckSelenium(CheckBase):
             error = None
             try:
                 driver.get(mod.url)
-                mod.run(driver)
+                mod.test(driver)
             except Exception as e:
                 success = False
                 error = str(e) or type(e).__name__

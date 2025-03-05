@@ -24,12 +24,12 @@ class TestBase(abc.ABC):
         return super().__init_subclass__(**kwargs)
 
     @classmethod
-    def test(cls):
+    def run(cls):
         t0 = time.time()
         driver = webdriver.Chrome()
         try:
             driver.get(cls.url)
-            cls.run(driver)
+            cls.test(driver)
         except Exception as e:
             error = str(e) or type(e).__name__
             print(f'Test {cls.name} failed: {error}')
@@ -40,5 +40,5 @@ class TestBase(abc.ABC):
             driver.quit()
 
     @abc.abstractclassmethod
-    def run(cls, driver: webdriver.Chrome):
+    def test(cls, driver: webdriver.Chrome):
         ...

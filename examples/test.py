@@ -1,6 +1,6 @@
 import sys
 sys.path.append('.')
-from lib import TestBase
+from libseleniumagent.base import TestBase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -12,7 +12,7 @@ class MyTest(TestBase):
     url = 'https://www.selenium.dev/selenium/web/web-form.html'
 
     @classmethod
-    def run(cls, driver: webdriver.Chrome):
+    def test(cls, driver: webdriver.Chrome):
         title = driver.title
         assert title == "Web form"
 
@@ -30,4 +30,4 @@ class MyTest(TestBase):
 
 
 if __name__ == '__main__':
-    MyTest().test()
+    MyTest().run()
