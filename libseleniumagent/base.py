@@ -29,13 +29,14 @@ class TestBase(abc.ABC):
         return super().__init_subclass__(**kwargs)
 
     @classmethod
-    def run(cls):
-        t0 = time.time()
-        driver = webdriver.Chrome()
+    def run(cls, remote=False):
+        if remote:
+            options = webdriver.ChromeOptions()
+            driver = webdriver.Remote(options=options)
+        else:
+            driver = webdriver.Chrome()
 
-        # TODO remote optional?
-        # options = webdriver.ChromeOptions()
-        # driver = webdriver.Remote(options=options)
+        t0 = time.time()
         try:
             driver.get(cls.url)
             cls.test(driver)
