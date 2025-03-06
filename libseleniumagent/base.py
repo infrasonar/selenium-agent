@@ -1,6 +1,7 @@
 import abc
 import time
 from selenium import webdriver
+from typing import Optional
 
 
 class TestBase(abc.ABC):
@@ -29,12 +30,16 @@ class TestBase(abc.ABC):
         return super().__init_subclass__(**kwargs)
 
     @classmethod
-    def run(cls, remote=False):
-        if remote:
+    def run(cls, driver: Optional[webdriver.Chrome]=None):
+        '''
+        Can be used to run the test
+
+        Argument `driver` can be use to specifiy a (local) webdriver
+        When not given it defaults to the remote chrome webdriver
+        '''
+        if driver is None:
             options = webdriver.ChromeOptions()
             driver = webdriver.Remote(options=options)
-        else:
-            driver = webdriver.Chrome()
 
         t0 = time.time()
         try:
