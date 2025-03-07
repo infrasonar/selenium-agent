@@ -30,7 +30,7 @@ class TestBase(abc.ABC):
         return super().__init_subclass__(**kwargs)
 
     @classmethod
-    def run(cls, driver: Optional[webdriver.Chrome]=None):
+    def run(cls, driver: Optional[webdriver.Chrome] = None):
         '''
         Can be used to run the test
 
