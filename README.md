@@ -12,7 +12,7 @@ Environment                 | Default                       | Description
 `TOKEN`                     | _required_                    | Token to connect to.
 `ASSET_ID`                  | `/data/.asset.json`           | Asset Id _or_ file where the Agent asset Id is stored _(must be a volume mount)_.
 `API_URI`                   | https://api.infrasonar.com    | InfraSonar API.
-`CHECK_INTERVAL`            | `300`                         | Interval for the selenium check in seconds.
+`CHECK_INTERVAL`            | `1800`                        | Interval for the selenium check in seconds.
 `TESTS_DIR`                 | `/data/tests`                 |
 `LOG_LEVEL`                 | `warning`                     | Log level _(error, warning, info, debug)_.
 `LOG_COLORIZED`             | `0`                           | Log colorized, 0 _(=disabled)_ or 1 _(=enabled)_.

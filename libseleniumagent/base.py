@@ -39,7 +39,10 @@ class TestBase(abc.ABC):
         '''
         if driver is None:
             options = webdriver.ChromeOptions()
-            driver = webdriver.Remote(options=options)
+            driver = webdriver.Remote(
+                command_executor='http://selenium:4444/wd/hub',
+                options=options
+            )
 
         t0 = time.time()
         try:

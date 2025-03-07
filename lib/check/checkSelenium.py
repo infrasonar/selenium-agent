@@ -11,12 +11,15 @@ from ..version import __version__ as version
 
 class CheckSelenium(CheckBase):
     key = 'selenium'
-    interval = int(os.getenv('CHECK_INTERVAL', '300'))
+    interval = int(os.getenv('CHECK_INTERVAL', '1800'))
 
     @classmethod
     async def run(cls) -> Dict[str, List[Dict[str, Any]]]:
         options = webdriver.ChromeOptions()
-        driver = webdriver.Remote(options=options)
+        driver = webdriver.Remote(
+            command_executor='http://selenium:4444/wd/hub',
+            options=options
+        )
 
         items = []
         for test in TESTS:
